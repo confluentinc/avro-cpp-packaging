@@ -1,0 +1,41 @@
+Source: avro-cpp
+Priority: optional
+Maintainer: Confluent Inc. <support@confluent.io>
+Build-Depends: debhelper (>= 9), cmake, libjansson-dev (>= 2.3)
+Standards-Version: 3.9.6
+Section: libs
+Homepage: http://avro.apache.org
+
+Package: libavro-cpp-dev
+Section: libdevel
+Architecture: any
+Depends: libavro-cpp1 (= ${binary:Version}), ${misc:Depends}
+Description: Apache Avro data serialization C++ library
+ Apache Avro™ is a data serialization system.
+ Avro provides:
+  * Rich data structures.
+  * A compact, fast, binary data format.
+  * A container file, to store persistent data.
+  * Remote procedure call (RPC).
+  * Simple integration with dynamic languages.
+ .
+ More information about Apache Avro can be found at http://avro.apache.org/
+ .
+ This package contains the development headers.
+
+
+Package: libavro-cpp1
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: Apache Avro data serialization C++ library
+ Apache Avro™ is a data serialization system.
+ Avro provides:
+  * Rich data structures.
+  * A compact, fast, binary data format.
+  * A container file, to store persistent data.
+  * Remote procedure call (RPC).
+  * Simple integration with dynamic languages.
+ .
+ More information about Apache Avro can be found at http://avro.apache.org/
+ .
+ This package contains the C++ shared library.

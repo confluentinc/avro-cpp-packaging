@@ -1,0 +1,40 @@
+From: Magnus Edenhill <magnus@confluent.io>
+Date: Fri, 13 May 2016 13:23:36 +0200
+Subject: Use GNUInstallDirs for proper install locations
+
+---
+ CMakeLists.txt | 12 +++++++-----
+ 1 file changed, 7 insertions(+), 5 deletions(-)
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index fc54a71..c91476f 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -18,6 +18,8 @@
+ #
+ cmake_minimum_required (VERSION 2.6)
+ 
++include(GNUInstallDirs)
++
+ set (CMAKE_LEGACY_CYGWIN_WIN32 0)
+ 
+ if (NOT DEFINED CMAKE_INSTALL_SYSTEM_RUNTIME_LIBS_NO_WARNINGS)
+@@ -155,13 +157,13 @@ set (CPACK_PACKAGE_FILE_NAME "avrocpp-${AVRO_VERSION_MAJOR}")
+ include (CPack)
+ 
+ install (TARGETS avrocpp avrocpp_s
+-    LIBRARY DESTINATION lib
+-    ARCHIVE DESTINATION lib
+-    RUNTIME DESTINATION lib)
++    LIBRARY DESTINATION "${CMAKE_INSTALL_LIBDIR}"
++    ARCHIVE DESTINATION "${CMAKE_INSTALL_LIBDIR}"
++    RUNTIME DESTINATION "${CMAKE_INSTALL_LIBDIR}")
+ 
+-install (TARGETS avrogencpp RUNTIME DESTINATION bin)
++install (TARGETS avrogencpp RUNTIME DESTINATION "${CMAKE_INSTALL_BINDIR}")
+ 
+-install (DIRECTORY api/ DESTINATION include/avro
++install (DIRECTORY api/ DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}/avro"
+     FILES_MATCHING PATTERN *.hh)
+ 
+ if (NOT CMAKE_BUILD_TYPE)
