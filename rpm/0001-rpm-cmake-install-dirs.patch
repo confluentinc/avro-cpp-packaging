@@ -1,0 +1,21 @@
+diff --git CMakeLists.txt CMakeLists.txt
+--- CMakeLists.txt
++++ CMakeLists.txt
+@@ -155,13 +155,13 @@ set (CPACK_PACKAGE_FILE_NAME "avrocpp-${AVRO_VERSION_MAJOR}")
+ include (CPack)
+ 
+ install (TARGETS avrocpp avrocpp_s
+-    LIBRARY DESTINATION lib
+-    ARCHIVE DESTINATION lib
+-    RUNTIME DESTINATION lib)
++    LIBRARY DESTINATION "${LIB_INSTALL_DIR}"
++    ARCHIVE DESTINATION "${LIB_INSTALL_DIR}"
++    RUNTIME DESTINATION "${LIB_INSTALL_DIR}")
+ 
+ install (TARGETS avrogencpp RUNTIME DESTINATION bin)
+ 
+-install (DIRECTORY api/ DESTINATION include/avro
++install (DIRECTORY api/ DESTINATION "${INCLUDE_INSTALL_DIR}/avro"
+     FILES_MATCHING PATTERN *.hh)
+ 
+ if (NOT CMAKE_BUILD_TYPE)
