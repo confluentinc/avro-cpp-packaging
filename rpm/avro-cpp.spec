@@ -11,6 +11,7 @@ Source:	 avro-cpp-%{version}.tar.gz
 Patch0: 0001-rpm-cmake-install-dirs.patch
 
 BuildRequires: cmake jansson-devel boost-devel
+Requires: boost-devel
 BuildRoot: %(mktemp -ud %{_tmppath}/%{name}-%{version}-%{release}-XXXXXX)
 
 %description
