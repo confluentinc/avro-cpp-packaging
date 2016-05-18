@@ -1,11 +1,12 @@
 PACKAGE_NAME?=	avro-cpp
 VERSION?=	1.8.0
+VERSION_SUFFIX?=
 
 BUILD_NUMBER?= 1
 
 MOCK_CONFIG?=default
 
-RESULT_DIR?=pkgs-$(VERSION)-$(BUILD_NUMBER)-$(MOCK_CONFIG)
+RESULT_DIR?=pkgs-$(VERSION)$(VERSION_SUFFIX)-$(BUILD_NUMBER)-$(MOCK_CONFIG)
 
 all: rpm
 
@@ -15,8 +16,8 @@ SOURCES:
 
 archive: SOURCES
 	cd ../ && \
-	git archive --prefix=$(PACKAGE_NAME)-$(VERSION)/ \
-	  -o rpm/SOURCES/$(PACKAGE_NAME)-$(VERSION).tar.gz HEAD
+	git archive --prefix=$(PACKAGE_NAME)-$(VERSION)$(VERSION_SUFFIX)/ \
+	  -o rpm/SOURCES/$(PACKAGE_NAME)-$(VERSION)$(VERSION_SUFFIX).tar.gz HEAD
 
 
 build_prepare: archive
@@ -29,7 +30,7 @@ srpm: build_prepare
 	/usr/bin/mock \
 		--no-cleanup-after \
 		-r $(MOCK_CONFIG) \
-		--define "__version $(VERSION)" \
+		--define "__version $(VERSION)$(VERSION_SUFFIX)" \
 		--define "__release $(BUILD_NUMBER)" \
 		--resultdir=$(RESULT_DIR) \
 		--buildsrpm \
@@ -41,7 +42,7 @@ rpm: srpm
 	/usr/bin/mock \
 		--no-cleanup-after \
 		-r $(MOCK_CONFIG) \
-		--define "__version $(VERSION)"\
+		--define "__version $(VERSION)$(VERSION_SUFFIX)"\
 		--define "__release $(BUILD_NUMBER)"\
 		--resultdir=$(RESULT_DIR) \
 		--rebuild $(RESULT_DIR)/$(PACKAGE_NAME)*.src.rpm
