@@ -30,6 +30,7 @@ srpm: build_prepare
 	/usr/bin/mock \
 		--no-cleanup-after \
 		-r $(MOCK_CONFIG) \
+		--bootstrap-chroot \
 		--define "__version $(VERSION)$(VERSION_SUFFIX)" \
 		--define "__release $(BUILD_NUMBER)" \
 		--resultdir=$(RESULT_DIR) \
@@ -42,6 +43,7 @@ rpm: srpm
 	/usr/bin/mock \
 		--no-cleanup-after \
 		-r $(MOCK_CONFIG) \
+		--bootstrap-chroot \
 		--define "__version $(VERSION)$(VERSION_SUFFIX)"\
 		--define "__release $(BUILD_NUMBER)"\
 		--resultdir=$(RESULT_DIR) \
