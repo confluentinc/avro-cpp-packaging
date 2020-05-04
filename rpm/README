@@ -9,3 +9,8 @@ Build:
 
    MOCK_CONFIG=fedora-20-x86_64 make
 
+Additional Mock Options:
+
+    # Say you wanted to build an RPM targeting a distro with rpm>4.12.x with rpm<4.12.x
+    MOCK_OPTIONS=--bootstrap-chroot MOCK_CONFIG=fedora-30-x86_64 make
+
