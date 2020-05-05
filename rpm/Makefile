@@ -28,6 +28,7 @@ build_prepare: archive
 
 srpm: build_prepare
 	/usr/bin/mock \
+		$(MOCK_OPTIONS) \
 		--no-cleanup-after \
 		-r $(MOCK_CONFIG) \
 		--define "__version $(VERSION)$(VERSION_SUFFIX)" \
@@ -40,6 +41,7 @@ srpm: build_prepare
 
 rpm: srpm
 	/usr/bin/mock \
+		$(MOCK_OPTIONS) \
 		--no-cleanup-after \
 		-r $(MOCK_CONFIG) \
 		--define "__version $(VERSION)$(VERSION_SUFFIX)"\
