@@ -7,7 +7,7 @@
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -20,7 +20,6 @@
 
 #include <boost/thread.hpp>
 #include <boost/bind.hpp>
-#include <boost/scoped_array.hpp>
 
 #ifdef HAVE_BOOST_ASIO
 #include <boost/asio.hpp>
@@ -64,7 +63,7 @@ void printBuffer(const InputBuffer &buf)
 
 void TestReserve()
 {
-    BOOST_WARN_MESSAGE( "TestReserve");
+    BOOST_TEST_MESSAGE( "TestReserve");
     {
         OutputBuffer ob;
         BOOST_CHECK_EQUAL(ob.size(), 0U);
@@ -111,7 +110,7 @@ void addDataToBuffer(OutputBuffer &buf, size_t size)
 
 void TestGrow()
 {
-    BOOST_WARN_MESSAGE( "TestGrow");
+    BOOST_TEST_MESSAGE( "TestGrow");
     { 
         OutputBuffer ob;
 
@@ -151,7 +150,7 @@ void TestGrow()
 
 void TestDiscard()
 {
-    BOOST_WARN_MESSAGE( "TestDiscard");
+    BOOST_TEST_MESSAGE( "TestDiscard");
     {
         OutputBuffer ob;
         size_t dataSize = kDefaultBlockSize*2 + kDefaultBlockSize/2;
@@ -257,7 +256,7 @@ void TestDiscard()
 
 void TestConvertToInput()
 {
-    BOOST_WARN_MESSAGE( "TestConvertToInput");
+    BOOST_TEST_MESSAGE( "TestConvertToInput");
     {
         OutputBuffer ob;
         size_t dataSize = kDefaultBlockSize*2 + kDefaultBlockSize/2;
@@ -277,7 +276,7 @@ void TestConvertToInput()
 
 void TestExtractToInput()
 {
-    BOOST_WARN_MESSAGE( "TestExtractToInput");
+    BOOST_TEST_MESSAGE( "TestExtractToInput");
     {
         OutputBuffer ob;
         size_t dataSize = kDefaultBlockSize*2 + kDefaultBlockSize/2;
@@ -376,7 +375,7 @@ void TestExtractToInput()
 
 void TestAppend()
 {
-    BOOST_WARN_MESSAGE( "TestAppend");
+    BOOST_TEST_MESSAGE( "TestAppend");
     {
         OutputBuffer ob;
         size_t dataSize = kDefaultBlockSize + kDefaultBlockSize/2;
@@ -405,7 +404,7 @@ void TestAppend()
 
 void TestBufferStream()
 {
-    BOOST_WARN_MESSAGE( "TestBufferStream");
+    BOOST_TEST_MESSAGE( "TestBufferStream");
 
     {
         // write enough bytes to a buffer, to create at least 3 blocks
@@ -456,7 +455,7 @@ void TestEof()
 
 void TestBufferStreamEof()
 {
-    BOOST_WARN_MESSAGE( "TestBufferStreamEof");
+    BOOST_TEST_MESSAGE( "TestBufferStreamEof");
 
     TestEof<int32_t>();
 
@@ -469,7 +468,7 @@ void TestBufferStreamEof()
 
 void TestSeekAndTell()
 {
-    BOOST_WARN_MESSAGE( "TestSeekAndTell");
+    BOOST_TEST_MESSAGE( "TestSeekAndTell");
 
     {
         std::string junk = makeString(kDefaultBlockSize/2);
@@ -501,7 +500,7 @@ void TestSeekAndTell()
 
 void TestReadSome()
 {
-    BOOST_WARN_MESSAGE( "TestReadSome");
+    BOOST_TEST_MESSAGE( "TestReadSome");
     {
         std::string junk = makeString(kDefaultBlockSize/2);
 
@@ -531,7 +530,7 @@ void TestReadSome()
 
 void TestSeek()
 {
-    BOOST_WARN_MESSAGE( "TestSeek");
+    BOOST_TEST_MESSAGE( "TestSeek");
     {
         const std::string str = "SampleMessage";
 
@@ -592,7 +591,7 @@ void TestSeek()
 
 void TestIterator() 
 {
-    BOOST_WARN_MESSAGE( "TestIterator");
+    BOOST_TEST_MESSAGE( "TestIterator");
     {
         OutputBuffer ob(2 * kMaxBlockSize + 10);
         BOOST_CHECK_EQUAL(ob.numChunks(), 3);
@@ -674,7 +673,7 @@ void server(boost::barrier &b)
 void TestAsioBuffer()
 {
     using boost::asio::ip::tcp;
-    BOOST_WARN_MESSAGE( "TestAsioBuffer");
+    BOOST_TEST_MESSAGE( "TestAsioBuffer");
     {
         boost::barrier b(2);
 
@@ -746,7 +745,7 @@ void TestAsioBuffer()
 
 void TestSplit()
 {
-    BOOST_WARN_MESSAGE( "TestSplit");
+    BOOST_TEST_MESSAGE( "TestSplit");
     {
         const std::string str = "This message is to be split";
 
@@ -773,7 +772,7 @@ void TestSplit()
 
 void TestSplitOnBorder()
 {
-    BOOST_WARN_MESSAGE( "TestSplitOnBorder");
+    BOOST_TEST_MESSAGE( "TestSplitOnBorder");
     {
 
         const std::string part1 = "This message";
@@ -793,7 +792,7 @@ void TestSplitOnBorder()
         BOOST_CHECK_EQUAL(buf.numDataChunks(), 2);
         size_t bufsize = buf.size();
     
-        boost::scoped_array<char> datain(new char[firstChunkSize]);
+        std::unique_ptr<char[]> datain(new char[firstChunkSize]);
         avro::istream is(buf);
         size_t in = static_cast<size_t>(is.readsome(&datain[0], firstChunkSize));
         BOOST_CHECK_EQUAL(in, firstChunkSize);
@@ -812,7 +811,7 @@ void TestSplitOnBorder()
 
 void TestSplitTwice() 
 {
-    BOOST_WARN_MESSAGE( "TestSplitTwice");
+    BOOST_TEST_MESSAGE( "TestSplitTwice");
     {
         const std::string msg1 = makeString(30);
 
@@ -842,7 +841,7 @@ void TestSplitTwice()
 
 void TestCopy() 
 {
-    BOOST_WARN_MESSAGE( "TestCopy");
+    BOOST_TEST_MESSAGE( "TestCopy");
 
     const std::string msg = makeString(30);
     // Test1, small data, small buffer
@@ -998,7 +997,7 @@ void TestCopy()
 // this is reproducing a sequence of steps that caused a crash
 void TestBug()  
 {
-    BOOST_WARN_MESSAGE( "TestBug");
+    BOOST_TEST_MESSAGE( "TestBug");
     {
         OutputBuffer rxBuf;
         OutputBuffer  buf;
@@ -1038,7 +1037,7 @@ void deleteForeign(const std::string &val)
 
 void TestForeign ()  
 {
-    BOOST_WARN_MESSAGE( "TestForeign");
+    BOOST_TEST_MESSAGE( "TestForeign");
     {
         std::string hello = "hello ";
         std::string there = "there ";
@@ -1065,7 +1064,7 @@ void TestForeign ()
 
 void TestForeignDiscard ()  
 {
-    BOOST_WARN_MESSAGE( "TestForeign");
+    BOOST_TEST_MESSAGE( "TestForeign");
     {
         std::string hello = "hello ";
         std::string again = "again ";
@@ -1104,7 +1103,7 @@ void TestForeignDiscard ()
 
 void TestPrinter()
 {
-    BOOST_WARN_MESSAGE( "TestPrinter");
+    BOOST_TEST_MESSAGE( "TestPrinter");
     {
         OutputBuffer ob;
         addDataToBuffer(ob, 128);
