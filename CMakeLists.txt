@@ -46,7 +46,7 @@ add_definitions (
     -DBOOST_PROGRAM_OPTIONS_DYN_LINK
     -DBOOST_ALL_NO_LIB)
 else()
-    add_definitions(-fPIC -g)
+    add_definitions(-fPIC -g -O2)
 endif()
 
 if (CMAKE_COMPILER_IS_GNUCXX)
