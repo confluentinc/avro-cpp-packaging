@@ -1342,9 +1342,18 @@ static const TestData4 data4[] = {
 #define COUNTOF(x)  sizeof(x) / sizeof(x[0])
 #define ENDOF(x)    (x) + COUNTOF(x)
 
-#define ADD_TESTS(testSuite, Factory, testFunc, data)           \
-testSuite.add(BOOST_PARAM_TEST_CASE(&testFunc<Factory>,         \
-    data, data + COUNTOF(data)))
+// Boost 1.67 and later expects test cases to have unique names. This dummy
+// helper functions leads to names which compose 'testFunc', 'Factory', and
+// 'data'.
+template <typename Test, typename Data>
+Test testWithData(const Test &test, const Data &data) {
+    // This wasn't around until boost-1.53.0
+    // boost::ignore_unused(data);
+    return test;
+}
+#define ADD_TESTS(testSuite, Factory, testFunc, data) \
+    testSuite.add(BOOST_PARAM_TEST_CASE(              \
+        testWithData(&testFunc<Factory>, data), data, data + COUNTOF(data)))
 
 struct BinaryEncoderFactory {
     static EncoderPtr newEncoder(const ValidSchema& schema) {
