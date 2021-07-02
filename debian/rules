@@ -21,11 +21,10 @@ include /usr/share/dpkg/default.mk
 %:
 	dh $@ 
 
-# dh_make generated override targets
-# This is example for Cmake (See https://bugs.debian.org/641051 )
-#override_dh_auto_configure:
-#	dh_auto_configure -- \
-#	-DCMAKE_LIBRARY_PATH=$(DEB_HOST_MULTIARCH)
+# Debian 9 and Ubuntu18 cmakes need to have CMAKE_INSTALL_LIBDIR defined to lib/$(DEB_HOST_MULTIARCH).
+# For whatever reason, CMake on these versions arent determining that this is what we want.
+override_dh_auto_configure:
+	dh_auto_configure -- -DCMAKE_INSTALL_LIBDIR=lib/$(DEB_HOST_MULTIARCH)
 
 
 
