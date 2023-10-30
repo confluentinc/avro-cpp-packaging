@@ -19,7 +19,7 @@
 #ifndef avro_Encoding_hh__
 #define avro_Encoding_hh__
 
-#include <stdint.h>
+#include <cstdint>
 #include <boost/array.hpp>
 
 #include "Config.hh"

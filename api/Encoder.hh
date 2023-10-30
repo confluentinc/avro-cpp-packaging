@@ -20,7 +20,7 @@
 #define avro_Encoder_hh__
 
 #include "Config.hh"
-#include <stdint.h>
+#include <cstdint>
 #include <string>
 #include <vector>
 

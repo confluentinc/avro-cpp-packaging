@@ -20,7 +20,7 @@
 #define avro_Resolver_hh__
 
 #include <boost/noncopyable.hpp>
-#include <stdint.h>
+#include <cstdint>
 
 #include "Config.hh"
 #include "Reader.hh"
