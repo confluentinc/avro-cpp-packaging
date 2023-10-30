@@ -19,8 +19,8 @@
 #include "boost/math/special_functions/fpclassify.hpp"
 #include "JsonIO.hh"
 
-namespace avro {
-namespace json {
+
+namespace avro::json {
 
 using std::ostringstream;
 
@@ -41,7 +41,7 @@ char JsonParser::next()
 {
     char ch = hasNext ? nextChar : ' ';
     while (isspace(ch)) {
-        ch = in_.read();
+        ch = (char)in_.read();
     }
     hasNext = false;
     return ch;
@@ -156,7 +156,7 @@ JsonParser::Token JsonParser::tryNumber(char ch)
         switch (state) {
         case 0:
             if (in_.hasMore()) {
-                ch = in_.read();
+                ch = (char)in_.read();
                 if (isdigit(ch)) {
                     state = (ch == '0') ? 1 : 2;
                     sv.push_back(ch);
@@ -167,7 +167,7 @@ JsonParser::Token JsonParser::tryNumber(char ch)
             break;
         case 1:
             if (in_.hasMore()) {
-                ch = in_.read();
+                ch = (char)in_.read();
                 if (ch == '.') {
                     state = 3;
                     sv.push_back(ch);
@@ -178,7 +178,7 @@ JsonParser::Token JsonParser::tryNumber(char ch)
             break;
         case 2:
             if (in_.hasMore()) {
-                ch = in_.read();
+                ch = (char)in_.read();
                 if (isdigit(ch)) {
                     sv.push_back(ch);
                     continue;
@@ -193,7 +193,7 @@ JsonParser::Token JsonParser::tryNumber(char ch)
         case 3:
         case 6:
             if (in_.hasMore()) {
-                ch = in_.read();
+                ch = (char)in_.read();
                 if (isdigit(ch)) {
                     sv.push_back(ch);
                     state++;
@@ -204,7 +204,7 @@ JsonParser::Token JsonParser::tryNumber(char ch)
             break;
         case 4:
             if (in_.hasMore()) {
-                ch = in_.read();
+                ch = (char)in_.read();
                 if (isdigit(ch)) {
                     sv.push_back(ch);
                     continue;
@@ -218,7 +218,7 @@ JsonParser::Token JsonParser::tryNumber(char ch)
             break;
         case 5:
             if (in_.hasMore()) {
-                ch = in_.read();
+                ch = (char)in_.read();
                 if (ch == '+' || ch == '-') {
                     sv.push_back(ch);
                     state = 6;
@@ -233,7 +233,7 @@ JsonParser::Token JsonParser::tryNumber(char ch)
             break;
         case 7:
             if (in_.hasMore()) {
-                ch = in_.read();
+                ch = (char)in_.read();
                 if (isdigit(ch)) {
                     sv.push_back(ch);
                     continue;
@@ -241,6 +241,8 @@ JsonParser::Token JsonParser::tryNumber(char ch)
                 hasNext = true;
             }
             break;
+        default:
+            throw Exception("Unexpected state");
         }
         if (state == 1 || state == 2 || state == 4 || state == 7) {
             if (hasNext) {
@@ -268,11 +270,11 @@ JsonParser::Token JsonParser::tryString()
 {
     sv.clear();
     for ( ; ;) {
-        char ch = in_.read();
+        char ch = (char)in_.read();
         if (ch == '"') {
             return tkString;
         } else if (ch == '\\') {
-            ch = in_.read();
+            ch = (char)in_.read();
             switch (ch) {
             case '"':
             case '\\':
@@ -313,7 +315,7 @@ JsonParser::Token JsonParser::tryString()
                             throw unexpected(c);
                         }
                     }
-                    sv.push_back(n);
+                    sv.push_back((char)n);
                 }
                 break;
             default:
@@ -329,7 +331,7 @@ Exception JsonParser::unexpected(unsigned char c)
 {
     std::ostringstream oss;
     oss << "Unexpected character in json " << toHex(c / 16) << toHex(c % 16);
-    return Exception(oss.str());
+    return oss.str();
 }
 
 JsonParser::Token JsonParser::tryLiteral(const char exp[], size_t n, Token tk)
@@ -342,7 +344,7 @@ JsonParser::Token JsonParser::tryLiteral(const char exp[], size_t n, Token tk)
         }
     }
     if (in_.hasMore()) {
-        nextChar = in_.read();
+        nextChar = (char)in_.read();
         if (isdigit(nextChar) || isalpha(nextChar)) {
             throw unexpected(nextChar);
         }
@@ -370,5 +372,5 @@ void JsonGenerator::encodeNumber(double t) {
 
 
 }
-}
+
 

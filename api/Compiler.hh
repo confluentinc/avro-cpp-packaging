@@ -20,7 +20,7 @@
 #define avro_Compiler_hh__
 
 #include "Config.hh"
-#include <stdint.h>
+#include <cstdint>
 #include <istream>
 
 namespace avro {

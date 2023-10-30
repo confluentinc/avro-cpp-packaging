@@ -21,7 +21,7 @@
 
 #include <boost/noncopyable.hpp>
 #include <vector>
-#include <stdint.h>
+#include <cstdint>
 
 #include "Config.hh"
 #include "Types.hh"

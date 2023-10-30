@@ -19,7 +19,7 @@
 #include <iostream>
 #include <fstream>
 #include <sstream>
-#include <boost/test/included/unit_test_framework.hpp>
+#include <boost/test/included/unit_test.hpp>
 #include <boost/make_shared.hpp>
 
 #include "Zigzag.hh"

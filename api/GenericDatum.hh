@@ -19,7 +19,7 @@
 #ifndef avro_GenericDatum_hh__
 #define avro_GenericDatum_hh__
 
-#include <stdint.h>
+#include <cstdint>
 #include <vector>
 #include <map>
 #include <string>

@@ -19,7 +19,7 @@
 #ifndef avro_Reader_hh__
 #define avro_Reader_hh__
 
-#include <stdint.h>
+#include <cstdint>
 #include <vector>
 #include <boost/noncopyable.hpp>
 
